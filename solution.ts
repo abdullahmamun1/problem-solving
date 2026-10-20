@@ -384,6 +384,60 @@ function reverseString(s: string[]): void {
   }
 }
 
+/**
+ * Problem 19: Length of Last Word
+ *
+ * @param s - String made of words and spaces
+ * @returns The length of the last word, ignoring leading, trailing, and repeated spaces
+ *
+ * @complexity
+ * Time: O(n), worst case scans the whole string from the end
+ * Space: O(1)
+ */
+function lengthOfLastWord(s: string): number {
+  let i: number = s.length - 1;
+
+  // Skip trailing spaces
+  while (i >= 0 && s[i] === " ") i--;
+
+  // Count characters of the last word
+  let length: number = 0;
+  while (i >= 0 && s[i] !== " ") {
+    length++;
+    i--;
+  }
+
+  return length;
+}
+
+/**
+ * Problem 20: Longest Common Prefix
+ *
+ * @param strs - Array of strings
+ * @returns The longest prefix shared by every string, or "" if there is none
+ *
+ * @complexity
+ * Time: O(S), where S is the total number of characters across all strings
+ * Space: O(1) extra (the returned prefix is a substring of the first string)
+ */
+function longestCommonPrefix(strs: string[]): string {
+  if (strs.length === 0) return "";
+
+  let prefix: string = strs[0];
+
+  for (let i = 1; i < strs.length; i++) {
+    // Shorten the prefix until the current string starts with it
+    while (!strs[i].startsWith(prefix)) {
+      prefix = prefix.slice(0, -1);
+      if (prefix === "") return "";
+    }
+  }
+
+  return prefix;
+}
+
+// Results
+
 console.log("Problem-1");
 console.log(staircase(4));
 
@@ -449,3 +503,9 @@ console.log("problem-18");
 const s18: string[] = ["h", "e", "l", "l", "o"];
 reverseString(s18);
 console.log(s18);
+
+console.log("problem-19");
+console.log(lengthOfLastWord("   fly me   to   the moon  "));
+
+console.log("problem-20");
+console.log(longestCommonPrefix(["flower", "flow", "flight"]));
