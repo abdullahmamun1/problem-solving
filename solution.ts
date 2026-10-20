@@ -338,6 +338,52 @@ function threeSum(nums: number[]): number[][] {
   return result;
 }
 
+/**
+ * Problem 17: Plus One
+ *
+ * @param digits - Non-empty array of digits (most significant first) representing a non-negative integer
+ * @returns A new array of digits representing the original number plus one
+ *
+ * @complexity
+ * Time: O(n), worst case when every digit is 9 and the carry travels the whole array
+ * Space: O(n) for the result array (O(1) extra beyond it)
+ */
+function plusOne(digits: number[]): number[] {
+  const result: number[] = [...digits];
+
+  for (let i = result.length - 1; i >= 0; i--) {
+    if (result[i] < 9) {
+      result[i]++;
+      return result;
+    }
+    result[i] = 0;
+  }
+
+  // Every digit was 9 (e.g. [9, 9, 9] -> [1, 0, 0, 0])
+  return [1, ...result];
+}
+
+/**
+ * Problem 18: Reverse String
+ *
+ * @param s - Array of characters, reversed in-place
+ * @returns void (the original array is modified directly)
+ *
+ * @complexity
+ * Time: O(n), each element is visited once by the two pointers
+ * Space: O(1), no extra array is used
+ */
+function reverseString(s: string[]): void {
+  let left: number = 0;
+  let right: number = s.length - 1;
+
+  while (left < right) {
+    [s[left], s[right]] = [s[right], s[left]];
+    left++;
+    right--;
+  }
+}
+
 console.log("Problem-1");
 console.log(staircase(4));
 
@@ -395,3 +441,11 @@ console.log(nums1);
 
 console.log("problem-16");
 console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+
+console.log("problem-17");
+console.log(plusOne([1, 2, 9]));
+
+console.log("problem-18");
+const s18: string[] = ["h", "e", "l", "l", "o"];
+reverseString(s18);
+console.log(s18);
