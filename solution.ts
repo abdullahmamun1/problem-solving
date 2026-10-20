@@ -177,6 +177,124 @@ function runningSum(nums: number[]): number[] {
   return result;
 }
 
+/**
+ * Problem 11: Richest Customer Wealth
+ *
+ * @param accounts - 2D array where accounts[i][j] is the money customer i holds in bank j
+ * @returns The maximum total wealth (sum of a row) across all customers
+ *
+ * @complexity
+ * Time: O(m * n), where m is the number of customers and n is the number of banks
+ * Space: O(1)
+ */
+function maximumWealth(accounts: number[][]): number {
+  let max: number = 0;
+
+  for (const customer of accounts) {
+    const wealth: number = customer.reduce(
+      (sum: number, amount: number): number => sum + amount,
+      0,
+    );
+    if (wealth > max) max = wealth;
+  }
+
+  return max;
+}
+
+/**
+ * Problem 12: Remove Duplicates from Sorted Array
+ *
+ * @param nums - Integer array sorted in non-decreasing order (modified in-place)
+ * @returns The number of unique elements k; the first k positions of nums hold them in order
+ *
+ * @complexity
+ * Time: O(n), single pass with two pointers
+ * Space: O(1), no extra array is used
+ */
+function removeDuplicates(nums: number[]): number {
+  if (nums.length === 0) return 0;
+
+  let k: number = 1;
+
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] !== nums[k - 1]) {
+      nums[k] = nums[i];
+      k++;
+    }
+  }
+
+  return k;
+}
+
+/**
+ * Problem 13: Contains Duplicate
+ *
+ * @param nums - Array of integers
+ * @returns true if any value appears at least twice, otherwise false
+ *
+ * @complexity
+ * Time: O(n), one pass with constant-time Set lookups
+ * Space: O(n) for the Set of seen values
+ */
+function containsDuplicate(nums: number[]): boolean {
+  const seen: Set<number> = new Set();
+
+  for (const num of nums) {
+    if (seen.has(num)) return true;
+    seen.add(num);
+  }
+
+  return false;
+}
+
+/**
+ * Problem 14: Move Zeroes
+ *
+ * @param nums - Integer array, modified in-place
+ * @returns void (the original array is rearranged so all zeros are at the end)
+ *
+ * @complexity
+ * Time: O(n), single pass with two pointers
+ * Space: O(1), no extra array is used
+ */
+function moveZeroes(nums: number[]): void {
+  let insertPos: number = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== 0) {
+      [nums[insertPos], nums[i]] = [nums[i], nums[insertPos]];
+      insertPos++;
+    }
+  }
+}
+
+/**
+ * Problem 15: Merge Sorted Array
+ *
+ * @param nums1 - Sorted array of length m + n; first m slots are valid, last n are empty (modified in-place)
+ * @param m - Number of valid elements in nums1
+ * @param nums2 - Sorted array with n valid elements
+ * @param n - Number of elements in nums2
+ * @returns void (the merged result is written directly into nums1)
+ *
+ * @complexity
+ * Time: O(m + n), single pass filling nums1 from the back
+ * Space: O(1), no extra array is used
+ */
+function merge(nums1: number[], m: number, nums2: number[], n: number): void {
+  let i: number = m - 1;
+  let j: number = n - 1;
+  let k: number = m + n - 1;
+
+  while (j >= 0) {
+    if (i >= 0 && nums1[i] > nums2[j]) {
+      nums1[k--] = nums1[i--];
+    } else {
+      nums1[k--] = nums2[j--];
+    }
+  }
+}
+
 console.log("Problem-1");
 console.log(staircase(4));
 
@@ -206,3 +324,28 @@ console.log(fizzBuzz(15));
 
 console.log("problem-10");
 console.log(runningSum([1, 2, 3, 4]));
+
+console.log("problem-11");
+console.log(
+  maximumWealth([
+    [1, 5],
+    [7, 3],
+    [3, 5],
+  ]),
+);
+
+console.log("problem-12");
+console.log(removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]));
+
+console.log("problem-13");
+console.log(containsDuplicate([1, 2, 3, 1]));
+
+console.log("problem-14");
+const nums14: number[] = [0, 1, 0, 3, 12];
+moveZeroes(nums14);
+console.log(nums14);
+
+console.log("problem-15");
+const nums1: number[] = [1, 2, 3, 0, 0, 0];
+merge(nums1, 3, [2, 5, 6], 3);
+console.log(nums1);
