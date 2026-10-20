@@ -295,6 +295,49 @@ function merge(nums1: number[], m: number, nums2: number[], n: number): void {
   }
 }
 
+/**
+ * Problem 16: 3Sum
+ *
+ * @param nums - Array of integers
+ * @returns All unique triplets [a, b, c] from distinct indices where a + b + c = 0,
+ *          or an empty array if none exist
+ *
+ * @complexity
+ * Time: O(n^2), sorting is O(n log n) and the two-pointer scan runs once per element
+ * Space: O(n) for the sorted copy (excluding the output)
+ */
+function threeSum(nums: number[]): number[][] {
+  const sorted: number[] = [...nums].sort(
+    (a: number, b: number): number => a - b,
+  );
+  const result: number[][] = [];
+
+  for (let i = 0; i < sorted.length - 2; i++) {
+    if (sorted[i] > 0) break;
+    if (i > 0 && sorted[i] === sorted[i - 1]) continue;
+
+    let left: number = i + 1;
+    let right: number = sorted.length - 1;
+    while (left < right) {
+      const sum: number = sorted[i] + sorted[left] + sorted[right];
+
+      if (sum < 0) {
+        left++;
+      } else if (sum > 0) {
+        right--;
+      } else {
+        result.push([sorted[i], sorted[left], sorted[right]]);
+        left++;
+        right--;
+        while (left < right && sorted[left] === sorted[left - 1]) left++;
+        while (left < right && sorted[right] === sorted[right + 1]) right--;
+      }
+    }
+  }
+
+  return result;
+}
+
 console.log("Problem-1");
 console.log(staircase(4));
 
@@ -349,3 +392,6 @@ console.log("problem-15");
 const nums1: number[] = [1, 2, 3, 0, 0, 0];
 merge(nums1, 3, [2, 5, 6], 3);
 console.log(nums1);
+
+console.log("problem-16");
+console.log(threeSum([-1, 0, 1, 2, -1, -4]));
